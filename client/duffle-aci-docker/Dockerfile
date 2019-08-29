@@ -11,16 +11,7 @@ ENV DUFFLE_REPO=simongdavies/duffle
 ENV DUFFLE_ACI_DRIVER_VERSION=v.0.0.1
 ENV DUFFLE_ACI_DRIVER_REPO=simongdavies/duffle-aci-driver
 
-ENV AZCOPY_URL=https://aka.ms/downloadazcopy-v10-linux
-ENV AZCOPY_DOWNLOAD_DIR=/tmp
-ENV AZCOPY_DIR=azcopy_linux_amd64_10.2.1
-
-RUN apk add --update bash py-pip jq curl coreutils  && rm -rf /var/cache/apk/*
-RUN apk add --virtual=build gcc libffi-dev musl-dev openssl-dev python-dev make  
-RUN pip --no-cache-dir install -U pip
-RUN pip --no-cache-dir install azure-cli
-RUN apk del --purge build
-RUN apk add libc6-compat
+RUN apk add --update bash jq curl && rm -rf /var/cache/apk/*
 
 RUN curl https://github.com/${ORAS_REPO}/releases/download/v${ORAS_VERSION}/oras_${ORAS_VERSION}_linux_amd64.tar.gz -fLo "./${ORAS_DOWNLOAD_DIR}/oras_${ORAS_VERSION}_linux_amd64.tar.gz"
 RUN tar -zxf "./${ORAS_DOWNLOAD_DIR}/oras_0.5.0_linux_amd64.tar.gz" -C .
@@ -36,13 +27,6 @@ RUN chmod +x "${TOOLHOME}/duffle"
 
 RUN curl "https://github.com/${DUFFLE_ACI_DRIVER_REPO}/releases/download/${DUFFLE_ACI_DRIVER_VERSION}/duffle-aci-driver-linux-amd64" -fLo "${TOOLHOME}/duffle-aci-driver"
 RUN chmod +x "${TOOLHOME}/duffle-aci-driver"
-
-# Install azcopy
-
-RUN curl ${AZCOPY_URL} -fLo "./${AZCOPY_DOWNLOAD_DIR}/azcopy.tar.gz"
-RUN tar -zxf ./${AZCOPY_DOWNLOAD_DIR}/azcopy.tar.gz -C .
-RUN mv ./${AZCOPY_DIR}/azcopy "${TOOLHOME}/azcopy"
-RUN chmod +x "${TOOLHOME}/azcopy"
 
 COPY run-duffle.sh .
 RUN chmod 755 run-duffle.sh

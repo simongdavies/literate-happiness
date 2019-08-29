@@ -46,8 +46,6 @@ oras pull "${CNAB_QUICKSTART_REGISTRY:-"cnabquickstartstest.azurecr.io"}/${CNAB_
 # Expects to find parameter values in ENV variable named after the bundle parameter in UPPER case
 # Ignores missing environment variables if the parameter has a default value
 
-# TODO Support File Source as well as ENV
-
 touch params.toml
 
 parameters=$(cat bundle.json|jq '.parameters|keys|.[]' -r)
@@ -102,10 +100,10 @@ for cred in ${credentials}; do
     fi
 done
 
-DUFFLE_HOME="${CNAB_STATE_MOUNT_POINT:-"/cnab/state"}/${CNAB_BUNDLE_NAME}/${CNAB_INSTALLATION_NAME}"
+export DUFFLE_HOME="${CNAB_STATE_MOUNT_POINT:-"/cnab/state"}/${CNAB_BUNDLE_NAME}/${CNAB_INSTALLATION_NAME}"
+mkdir -p ${DUFFLE_HOME}
                    
 duffle init
-
 
 # TODO Support custom actions
 
