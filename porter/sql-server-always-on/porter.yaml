@@ -2,7 +2,7 @@ name: sql-server-always-on-k8s
 version: 0.1.0
 description: "SQL Server Always On for AKS"
 dockerfile: cnab/app/Dockerfile.base
-invocationImage: cnabquickstartstest.azurecr.io/porter/sql-server-always-on-k8s
+invocationImage: cnabquickstartstest.azurecr.io/porter/sql-server-always-on-k8s-rptest
 
 credentials:
 - name: kube_config
@@ -11,7 +11,7 @@ credentials:
 
 mixins:
   - exec
-  - kubernetes
+  - kubernetess
 
 install:
  
