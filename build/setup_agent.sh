@@ -10,17 +10,6 @@ function check_required_files() {
 
     # TODO Validate the files
     # Need to support file existing in the target repo
-
-    # if [ ! -f  ${repo_local_path}/${tool}/azuredeploy.json ]; then   
-    #     echo "Solution should contain an ARM template to deploy the solution named azuredeploy.json."
-    #     exit 1
-    # fi
-
-    # if [ ! -f  ${repo_local_path}/${tool}/azuredeploy.json ]; then 
-    #     echo "Solution should contain an metadata file named metadata.json."
-    #     exit 1
-    # fi
-
 }
 
 # Update could be in either the duffle or the porter directory or it could be an update that is not related to a solution, this should only happen on a merge as builds are only trigged for PR when changes are made in the dufffle or porter folder
