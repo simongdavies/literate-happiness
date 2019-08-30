@@ -38,11 +38,6 @@ if [ -z "${ACI_LOCATION}" ]; then
     exit 1
 fi 
 
-if [ -z "${ACI_LOCATION}" ]; then 
-    echo "Environment Variable ACI_LOCATION should be set to the location to be used by the ACI Driver" 
-    exit 1
-fi 
-
 if [[ ! ${VERBOSE} = "true" ]]; then 
     VERBOSE=false
     FLAG=""
@@ -120,15 +115,15 @@ duffle init
 case "${CNAB_ACTION}" in
     install)
         echo "Installing the Application"  
-        duffle install "${CNAB_INSTALLATION_NAME}" bundle.json -f -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG
+        duffle install "${CNAB_INSTALLATION_NAME}" bundle.json -f -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG >> /proc/1/fd/1
         ;;
     uninstall)
         echo "Destroying the Application"        
-        duffle uninstall "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG
+        duffle uninstall "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG >> /proc/1/fd/1
         ;;
     upgrade)
         echo "Upgrading the Application"
-        duffle upgrade "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG
+        duffle upgrade "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG >> /proc/1/fd/1
         ;;
     *)
         echo "No action for ${CNAB_ACTION}"
