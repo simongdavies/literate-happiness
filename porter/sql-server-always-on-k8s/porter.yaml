@@ -6,14 +6,21 @@ invocationImage: cnabquickstartstest.azurecr.io/porter/sql-server-always-on-k8s
 
 credentials:
 - name: kube_config
-  path: /root/.kube/config
-  description: Kube config for Kubernetes Mixin
+  env: K8SCONFIG
+  description: Base64 encoded Kube config for Kubernetes Mixin
 
 mixins:
   - exec
   - kubernetes
 
 install:
+  - exec: 
+      description: "Decode Kubeconfig"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+  
   - kubernetes:
       description: "Create SQL Operator"
       manifests:
