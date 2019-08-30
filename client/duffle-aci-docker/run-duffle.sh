@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+FLAGS=" --debug"
+
 # Script to run duffle using ACI Driver in Docker
 # All arguments are expected to be in ENV VARS
 # Requires the following arguments plus any parameters/creds for the bundle 
@@ -36,9 +38,17 @@ if [ -z "${ACI_LOCATION}" ]; then
     exit 1
 fi 
 
+if [ -z "${ACI_LOCATION}" ]; then 
+    echo "Environment Variable ACI_LOCATION should be set to the location to be used by the ACI Driver" 
+    exit 1
+fi 
+
 if [[ ! ${VERBOSE} = "true" ]]; then 
     VERBOSE=false
+    $FLAG=""
 fi
+
+
 
 oras pull "${CNAB_QUICKSTART_REGISTRY:-"cnabquickstartstest.azurecr.io"}/${CNAB_BUNDLE_NAME}/bundle.json:latest"
 
@@ -110,15 +120,15 @@ duffle init
 case "${CNAB_ACTION}" in
     install)
         echo "Installing the Application"  
-        duffle install "${CNAB_INSTALLATION_NAME}" bundle.json -f -d aci-driver -c ./credentials.yaml -p params.toml -v 
+        duffle install "${CNAB_INSTALLATION_NAME}" bundle.json -f -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG
         ;;
     uninstall)
         echo "Destroying the Application"        
-        duffle uninstall "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v
+        duffle uninstall "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG
         ;;
     upgrade)
         echo "Upgrading the Application"
-        duffle upgrade "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v
+        duffle upgrade "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG
         ;;
     *)
         echo "No action for ${CNAB_ACTION}"
