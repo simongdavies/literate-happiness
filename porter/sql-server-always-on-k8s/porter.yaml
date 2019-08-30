@@ -9,6 +9,14 @@ credentials:
   env: K8SCONFIG
   description: Base64 encoded Kube config for Kubernetes Mixin
 
+- name: sql_sapassword
+  env: SQL_SAPASSWORD
+  description: The Password for the sa user in SQL Server
+  
+- name: sql_masterkeypassword
+  env: SQL_MASTERKEYPASSWORD
+  description: The Password for the SQL Server Master Key
+
 mixins:
   - exec
   - kubernetes
