@@ -110,8 +110,6 @@ mkdir -p ${DUFFLE_HOME}
                    
 duffle init
 
-export VERBOSE=true
-
 # TODO Support custom actions
 
 case "${CNAB_ACTION}" in
