@@ -19,7 +19,7 @@ install:
       command: "bash"
       arguments: 
         - "-c" 
-        - "mkdir -p /root/.kube/config;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+        - "mkdir -p /root/.kube/config ;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
   
   - kubernetes:
       description: "Create SQL Operator"
