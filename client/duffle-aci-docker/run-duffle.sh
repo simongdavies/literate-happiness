@@ -110,20 +110,22 @@ mkdir -p ${DUFFLE_HOME}
                    
 duffle init
 
+export VERBOSE=true
+
 # TODO Support custom actions
 
 case "${CNAB_ACTION}" in
     install)
         echo "Installing the Application"  
-        duffle install "${CNAB_INSTALLATION_NAME}" bundle.json -f -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG >> /proc/1/fd/1
+        duffle install "${CNAB_INSTALLATION_NAME}" bundle.json -f -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG 
         ;;
     uninstall)
         echo "Destroying the Application"        
-        duffle uninstall "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG >> /proc/1/fd/1
+        duffle uninstall "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG 
         ;;
     upgrade)
         echo "Upgrading the Application"
-        duffle upgrade "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG >> /proc/1/fd/1
+        duffle upgrade "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG 
         ;;
     *)
         echo "No action for ${CNAB_ACTION}"
