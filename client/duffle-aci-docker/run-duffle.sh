@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-FLAGS=" --debug"
+FLAG=" --debug"
 
 # Script to run duffle using ACI Driver in Docker
 # All arguments are expected to be in ENV VARS
@@ -45,7 +45,7 @@ fi
 
 if [[ ! ${VERBOSE} = "true" ]]; then 
     VERBOSE=false
-    $FLAG=""
+    FLAG=""
 fi
 
 
