@@ -40,10 +40,7 @@ fi
 
 if [[ ! ${VERBOSE} = "true" ]]; then 
     VERBOSE=false
-    FLAG=""
 fi
-
-
 
 oras pull "${CNAB_QUICKSTART_REGISTRY:-"cnabquickstartstest.azurecr.io"}/${CNAB_BUNDLE_NAME}/bundle.json:latest"
 
@@ -115,15 +112,15 @@ duffle init
 case "${CNAB_ACTION}" in
     install)
         echo "Installing the Application"  
-        duffle install "${CNAB_INSTALLATION_NAME}" bundle.json -f -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG 
+        duffle install "${CNAB_INSTALLATION_NAME}" bundle.json -f -d aci-driver -c ./credentials.yaml -p params.toml -v 
         ;;
     uninstall)
         echo "Destroying the Application"        
-        duffle uninstall "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG 
+        duffle uninstall "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v 
         ;;
     upgrade)
         echo "Upgrading the Application"
-        duffle upgrade "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v $FLAG 
+        duffle upgrade "${CNAB_INSTALLATION_NAME}" -d aci-driver -c ./credentials.yaml -p params.toml -v 
         ;;
     *)
         echo "No action for ${CNAB_ACTION}"
