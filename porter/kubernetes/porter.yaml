@@ -33,11 +33,11 @@ install:
       command: "bash"
       arguments: 
         - "-c" 
-        - "mkdir -p ${DUFFLE_HOME}/manifests/;curl ${KUBE_MANIFEST} -fLo ${DUFFLE_HOME}/manifests/manifest.yaml"
+        - "mkdir -p /tmp/manifests/;curl ${KUBE_MANIFEST} -fLo /tmp/manifests/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
-        - ${DUFFLE_HOME}/manifests/manifest.yaml
+        - /tmp/manifests/manifest.yaml
       wait: true 
     
 uninstall:
@@ -47,8 +47,14 @@ uninstall:
       arguments: 
         - "-c" 
         - "mkdir -p /root/.kube;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+  - exec: 
+      description: "Download Manifest"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "mkdir -p /tmp/manifests/;curl ${KUBE_MANIFEST} -fLo /tmp/manifests/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
-        - ${DUFFLE_HOME}/manifests/manifest.yaml
+        - /tmp/manifests/manifest.yaml
       wait: true 
