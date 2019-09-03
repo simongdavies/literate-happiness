@@ -33,11 +33,11 @@ install:
       command: "bash"
       arguments: 
         - "-c" 
-        - "mkdir -p /${DUFFLE_HOME}/manifests/;curl ${KUBE_MANIFEST} -fLo /${DUFFLE_HOME}/manifests/manifest.yaml"
+        - "mkdir -p ${DUFFLE_HOME}/manifests/;curl ${KUBE_MANIFEST} -fLo ${DUFFLE_HOME}/manifests/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
-        - /${DUFFLE_HOME}/manifests/manifest.yaml
+        - ${DUFFLE_HOME}/manifests/manifest.yaml
       wait: true 
     
 uninstall:
@@ -50,5 +50,5 @@ uninstall:
   - kubernetes:
       description: "Apply Manifest"
       manifests:
-        - /${DUFFLE_HOME}/manifests/manifest.yaml
+        - ${DUFFLE_HOME}/manifests/manifest.yaml
       wait: true 
