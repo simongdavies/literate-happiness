@@ -1,0 +1,54 @@
+name: kubernetes
+version: 0.1.0
+description: "Apply Kubernetes Manifest"
+dockerfile: cnab/app/Dockerfile.base
+invocationImage: cnabquickstartstest.azurecr.io/porter/kubernetes
+
+credentials:
+- name: kube_config
+  env: K8SCONFIG
+  description: Base64 encoded Kube config for Kubernetes Mixin
+
+parameters:
+- name: manifest
+  type: string
+  default: ""
+  description: Http URL to manifest to apply to the cluster
+  destination:
+    env: KUBE_MANIFEST
+
+mixins:
+  - exec
+  - kubernetes
+
+install:
+  - exec: 
+      description: "Decode Kubeconfig"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "mkdir -p /root/.kube;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+  - exec: 
+      description: "Download Manifest"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "mkdir -p /$DUFFLE_HOME}/manifests/;curl ${KUBE_MANIFEST} -fLo /cnab/app/manifests/manifest.yaml"
+  - kubernetes:
+      description: "Apply Manifest"
+      manifests:
+        - /$DUFFLE_HOME}/manifests/manifest.yaml
+      wait: true 
+    
+uninstall:
+  - exec: 
+      description: "Decode Kubeconfig"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "mkdir -p /root/.kube;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+  - kubernetes:
+      description: "Apply Manifest"
+      manifests:
+        - /$DUFFLE_HOME}/manifests/manifest.yaml
+      wait: true 
