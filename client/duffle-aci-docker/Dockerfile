@@ -8,7 +8,7 @@ ENV TOOLHOME="/usr/local/bin"
 ENV DUFFLE_VERSION=aciidriver
 ENV DUFFLE_REPO=simongdavies/duffle
 
-ENV DUFFLE_ACI_DRIVER_VERSION=v.0.0.2
+ENV DUFFLE_ACI_DRIVER_VERSION=v.0.0.1
 ENV DUFFLE_ACI_DRIVER_REPO=simongdavies/duffle-aci-driver
 
 RUN apk add --update bash jq curl && rm -rf /var/cache/apk/*
