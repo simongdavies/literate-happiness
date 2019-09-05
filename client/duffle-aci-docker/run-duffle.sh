@@ -16,10 +16,13 @@ parameterisrequired() {
 # CNAB_ACTION
 # CNAB_BUNDLE_NAME The anme os the bundle to install should be in the form of tool/bundlename (e.g porter/{name} or duffle/{name})
 # ACI_LOCATION: The location to be used by the Duffle ACI Driver
+# ACI_STATE_STORAGE_ACCOUNT_NAME: The Storage Account Name for the ACI Driver to use to mount a fileshare volume for state persistence
+# ACI_STATE_STORAGE_ACCOUNT_KEY: The Storage Account Key for the ACI Driver to use to mount a fileshare volume for state persistence
+# ACI_STATE_FILESHARE The Storage Fileshare Name for the ACI Driver to use to mount a fileshare volume for state persistence
 # VERBOSE Enables Verbose output from the duffle ACI Driver
 
 if [ -z "${CNAB_INSTALLATION_NAME}" ]; then 
-    echo "Environment Variable CNAB_INSTALLATION_NAME} should be set to the name of the instance installed/updated/deleted" 
+    echo "Environment Variable CNAB_INSTALLATION_NAME should be set to the name of the instance installed/updated/deleted" 
     exit 1
 fi 
 
@@ -35,6 +38,22 @@ fi
 
 if [ -z "${ACI_LOCATION}" ]; then 
     echo "Environment Variable ACI_LOCATION should be set to the location to be used by the ACI Driver" 
+    exit 1
+fi 
+
+if [ -z "${ACI_STATE_STORAGE_ACCOUNT_NAME}" ]; then 
+    echo "Environment Variable ACI_STATE_STORAGE_ACCOUNT_NAME should be set to the name of the storage account name to be used for ACI Driver instance state store" 
+    exit 1
+fi 
+
+if [ -z "${ACI_STATE_STORAGE_ACCOUNT_KEY}" ]; then 
+    echo "Environment Variable ACI_STATE_STORAGE_ACCOUNT_KEY should be set to the name of the storage account key to be used for ACI Driver instance state store" 
+    exit 1
+fi 
+
+
+if [ -z "${ACI_STATE_FILESHARE}" ]; then 
+    echo "Environment Variable ACI_STATE_FILESHARE should be set to the name of the fileshare to be used for ACI Driver instance state store" 
     exit 1
 fi 
 
@@ -104,7 +123,9 @@ done
 
 export DUFFLE_HOME="${CNAB_STATE_MOUNT_POINT:-"/cnab/state"}/${CNAB_BUNDLE_NAME}/${CNAB_INSTALLATION_NAME}"
 mkdir -p ${DUFFLE_HOME}
-                   
+export ACI_STATE_MOUNT_POINT=${CNAB_STATE_MOUNT_POINT:-"/cnab/state"}
+export ACI_STATE_PATH=${DUFFLE_HOME}
+
 duffle init
 
 # TODO Support custom actions
