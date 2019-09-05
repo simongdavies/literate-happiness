@@ -34,11 +34,11 @@ install:
       command: "bash"
       arguments: 
         - "-c" 
-        - "mkdir -p ${STATE_PATH}/manifests/;curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml"
+        - "mkdir -p ${STATE_PATH}/manifests/;curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml;cp ${STATE_PATH}/manifests/manifest.yaml /tmp/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
-        - ${STATE_PATH}/manifests/manifest.yaml
+        - /tmp/manifest.yaml
       wait: true 
 
 upgrade:
@@ -54,11 +54,11 @@ upgrade:
       command: "bash"
       arguments: 
         - "-c" 
-        - "curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml"
+        - "curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml;cp ${STATE_PATH}/manifests/manifest.yaml /tmp/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
-        - ${STATE_PATH}/manifests/manifest.yaml
+         - /tmp/manifest.yaml
       wait: true 
 
 uninstall:
@@ -69,8 +69,14 @@ uninstall:
       arguments: 
         - "-c" 
         - "mkdir -p /root/.kube;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+   - exec: 
+      description: "Copy Manifest"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "cp ${STATE_PATH}/manifests/manifest.yaml /tmp/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
-        -  ${STATE_PATH}/manifests/manifest.yaml
+        -  /tmp/manifest.yaml
       wait: true 
