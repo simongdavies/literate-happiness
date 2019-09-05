@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-FLAG=" --debug"
-
 # Script to run duffle using ACI Driver in Docker
 # All arguments are expected to be in ENV VARS
 # Requires the following arguments plus any parameters/creds for the bundle 
@@ -57,8 +55,10 @@ if [ -z "${ACI_STATE_FILESHARE}" ]; then
     exit 1
 fi 
 
+export PORTER_DEBUG=true
 if [[ ! ${VERBOSE} = "true" ]]; then 
-    VERBOSE=false
+    export VERBOSE=false
+    export PORTER_DEBUG=false
 fi
 
 oras pull "${CNAB_QUICKSTART_REGISTRY:-"cnabquickstartstest.azurecr.io"}/${CNAB_BUNDLE_NAME}/bundle.json:latest"
