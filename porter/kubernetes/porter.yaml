@@ -54,7 +54,7 @@ upgrade:
       command: "bash"
       arguments: 
         - "-c" 
-        - "mkdir -p ${STATE_PATH}/manifests/;curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml"
+        - "curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
@@ -62,7 +62,7 @@ upgrade:
       wait: true 
 
 uninstall:
-  
+
   - exec: 
       description: "Decode Kubeconfig"
       command: "bash"
