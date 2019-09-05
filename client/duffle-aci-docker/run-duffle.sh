@@ -86,7 +86,7 @@ for param in ${parameters};do
             exit 1
         fi
         if [[ ${param} = "porter-debug" ]]; then 
-            echo "porter-debug=\"${PORTER_DEBUG}\"" >> params.toml
+            echo "porter-debug=${PORTER_DEBUG}" >> params.toml
         else 
             printf "Parameter %s has illegal ENV variable translation ignoring\\n" "${param}"
         fi
