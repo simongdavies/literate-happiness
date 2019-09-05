@@ -85,7 +85,7 @@ for param in ${parameters};do
             printf "Bundle expects parameter: %s to be set but parameter name translates to illegal env var name: %s\\n" "${param}" "${var}"
             exit 1
         fi
-        if [[ ! ${param} = "porter-debug" ]]; then 
+        if [[ ${param} = "porter-debug" ]]; then 
             echo "porter-debug=\"${PORTER_DEBUG}\"" >> params.toml
         else 
             printf "Parameter %s has illegal ENV variable translation ignoring\\n" "${param}"
