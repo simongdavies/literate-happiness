@@ -40,7 +40,7 @@ install:
       command: "bash"
       arguments: 
         - "-c" 
-        - "mkdir -p ${STATE_PATH}/manifests/;curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml;envsubst ${STATE_PATH}/manifests/manifest.yaml > /tmp/manifest.yaml"
+        - "mkdir -p ${STATE_PATH}/manifests/;curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml;envsubst < ${STATE_PATH}/manifests/manifest.yaml > /tmp/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
@@ -60,7 +60,7 @@ upgrade:
       command: "bash"
       arguments: 
         - "-c" 
-        - "curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml;envsubst ${STATE_PATH}/manifests/manifest.yaml > /tmp/manifest.yaml"
+        - "curl ${KUBE_MANIFEST} -fLo ${STATE_PATH}/manifests/manifest.yaml;envsubst < ${STATE_PATH}/manifests/manifest.yaml > /tmp/manifest.yaml"
   - kubernetes:
       description: "Apply Manifest"
       manifests:
