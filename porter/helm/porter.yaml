@@ -53,8 +53,7 @@ install:
       command: "bash"
       arguments: 
         - "-c" 
-        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm install stable\\${CHART_NAME} --name {RELEASE_NAME} fi"
-        - "if  [[ ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm install stable\\${CHART_NAME} --name {RELEASE_NAME} --set ${CHART_VALUES} fi"
+        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm install stable\\${CHART_NAME} --name {RELEASE_NAME} else  helm tiller run ${NAMESPACE} -- helm install stable\\${CHART_NAME} --name {RELEASE_NAME} --set ${CHART_VALUES} fi"
 
 upgrade:
   - exec: 
@@ -68,9 +67,8 @@ upgrade:
       command: "bash"
       arguments: 
         - "-c" 
-        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm upgrade --install stable\\${CHART_NAME} --name {RELEASE_NAME}  fi"
-        - "if  [[ ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm upgrade --install stable\\${CHART_NAME} --name {RELEASE_NAME} --set ${CHART_VALUES}  fi"
-
+        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm install stable\\${CHART_NAME} --name {RELEASE_NAME} else  helm tiller run ${NAMESPACE} -- helm install stable\\${CHART_NAME} --name {RELEASE_NAME} --set ${CHART_VALUES} fi"
+  
 uninstall:
   - exec: 
       description: "Decode Kubeconfig"
