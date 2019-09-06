@@ -1,5 +1,5 @@
 FROM debian:stretch
 RUN apt-get update -y && apt-get install curl -y 
 RUN curl -LO https://git.io/get_helm.sh && chmod 700 get_helm.sh && ./get_helm.sh
-RUN helm init
+RUN helm init --client-only 
 RUN helm plugin install https://github.com/rimusz/helm-tiller
