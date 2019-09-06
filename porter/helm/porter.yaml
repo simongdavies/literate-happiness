@@ -1,0 +1,86 @@
+name: helm
+version: 0.1.0
+description: "Apply Helm Chart"
+dockerfile: cnab/app/Dockerfile.base
+invocationImage: cnabquickstartstest.azurecr.io/porter/helm
+
+credentials:
+- name: kube_config
+  env: K8SCONFIG
+  description: Base64 encoded Kube config for Kubernetes Mixin
+
+parameters:
+- name: chart_name
+  type: string
+  default: ""
+  description: Chart name (from stable chart repo)
+  destination:
+    env: CHART_NAME
+
+- name: namespace
+  type: string
+  default: ""
+  description: Kubernetes Namespace to install the chart in
+  destination:
+    env: NAMESPACE
+
+- name: chart_values
+  type: string
+  default: ""
+  description: Chart Values
+  destination:
+    env: CHART_VALUES
+
+- name: release_name
+  type: string
+  default: ""
+  description: 
+  destination:
+    env: RELEASE_NAME
+
+mixins:
+  - exec
+
+install:
+  - exec: 
+      description: "Decode Kubeconfig"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "mkdir -p /root/.kube;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+  - exec: 
+      description: "Install Chart"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm install stable\${CHART_NAME} --name {RELEASE_NAME} fi"
+        - "if  [[ ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm install stable\${CHART_NAME} --name {RELEASE_NAME} --set ${CHART_VALUES} fi"
+
+upgrade:
+  - exec: 
+      description: "Decode Kubeconfig"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "mkdir -p /root/.kube;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+  - exec: 
+      description: "Upgrade Chart"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm upgrade --install stable\${CHART_NAME} --name {RELEASE_NAME}  fi"
+        - "if  [[ ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm upgrade --install stable\${CHART_NAME} --name {RELEASE_NAME} --set ${CHART_VALUES}  fi"
+
+uninstall:
+  - exec: 
+      description: "Decode Kubeconfig"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "mkdir -p /root/.kube;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
+  - exec: 
+      description: "Delete Chart"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "helm tiller run ${NAMESPACE} -- helm delete {RELEASE_NAME}"
