@@ -69,7 +69,7 @@ uninstall:
       arguments: 
         - "-c" 
         - "mkdir -p /root/.kube;echo ${K8SCONFIG}|base64 -d > /root/.kube/config"
-   - exec: 
+  - exec: 
       description: "Copy Manifest"
       command: "bash"
       arguments: 
