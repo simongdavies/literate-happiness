@@ -53,7 +53,7 @@ install:
       command: "bash"
       arguments: 
         - "-c" 
-        - "helm tiller run ${NAMESPACE} -- helm install stable\\${CHART_NAME} --name {RELEASE_NAME}"
+        - "helm tiller run ${NAMESPACE} -- helm install ${CHART_NAME} --name ${RELEASE_NAME}"
 
 upgrade:
   - exec: 
