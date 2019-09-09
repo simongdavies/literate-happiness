@@ -53,7 +53,7 @@ install:
       command: "bash"
       arguments: 
         - "-c" 
-        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm install ${CHART_NAME} --name ${RELEASE_NAME}; else helm tiller run ${NAMESPACE} -- helm install ${CHART_NAME} --name ${RELEASE_NAME} --set ${CHART_VALUES};  fi"
+        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm upgrade ${CHART_NAME} stable/wordpress --namespace ${NAMESPACE} --install; else helm tiller run ${NAMESPACE} -- helm upgrade ${CHART_NAME} stable/wordpress  --set ${CHART_VALUES} --namespace ${NAMESPACE} --install;  fi"
 
 upgrade:
   - exec: 
@@ -67,7 +67,7 @@ upgrade:
       command: "bash"
       arguments: 
         - "-c" 
-        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm install ${CHART_NAME} --name ${RELEASE_NAME}; else helm tiller run ${NAMESPACE} -- helm install ${CHART_NAME} --name ${RELEASE_NAME} --set ${CHART_VALUES};  fi"
+        - "if  [[ -z ${CHART_VALUES} ]]; then helm tiller run ${NAMESPACE} -- helm upgrade ${CHART_NAME} stable/wordpress --namespace ${NAMESPACE} --install; else helm tiller run ${NAMESPACE} -- helm upgrade ${CHART_NAME} stable/wordpress  --set ${CHART_VALUES} --namespace ${NAMESPACE} --install;  fi"
 
 uninstall:
   - exec: 
