@@ -1,0 +1,57 @@
+name: datadog-ordered-dashboard
+version: 0.1.0
+description: "Create a Datadog Dashboard"
+dockerfile: cnab/app/Dockerfile.base
+invocationImage: cnabquickstartstest.azurecr.io/porter/datadog-ordered-dashboard
+
+credentials:
+- name: datadog_api_key
+  env: TF_VAR_datadog_api_key
+  description: DataDog API Key 
+
+- name: datadog_app_key
+  env: TF_VAR_datadog_app_key
+  description: DataDog app Key 
+
+parameters:
+
+- name: dashboard_name
+  type: string
+  description: The name of the dashboard to create
+  destination:
+    env: TF_VAR_dashboard_name
+
+mixins:
+  - terraform
+
+install:
+  - exec: 
+      description: "Create Local State Path and update TF config"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "mkdir -p ${STATE_PATH}/tf;envsubst < /cnab/app/backend.config > /cnab/app/terraform/backend.tf"
+  - terrafrom: 
+      description: "Install DataDog Dashboard"
+    
+upgrade:
+  - exec: 
+      description: "Update TF config"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "envsubst < /cnab/app/backend.config > /cnab/app/terraform/backend.tf"
+  - terrafrom: 
+      description: "Upgrade DataDog Dashboard"
+
+uninstall:
+  - exec: 
+      description: "Update TF config"
+      command: "bash"
+      arguments: 
+        - "-c" 
+        - "envsubst < /cnab/app/backend.config > /cnab/app/terraform/backend.tf"
+  - terrafrom: 
+      description: "Delete DataDog Dashboard"
+
+  
