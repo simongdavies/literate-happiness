@@ -24,7 +24,7 @@ parameters:
 mixins:
   - exec
   - terraform
-  
+
 install:
   - exec: 
       description: "Create Local State Path and update Terraform config"
@@ -32,7 +32,7 @@ install:
       arguments: 
         - "-c" 
         - "mkdir -p ${STATE_PATH}/tf;envsubst < /cnab/app/backend.config > /cnab/app/terraform/backend.tf"
-  - terrafrom: 
+  - terraform: 
       description: "Install DataDog Dashboard"
     
 upgrade:
@@ -42,7 +42,7 @@ upgrade:
       arguments: 
         - "-c" 
         - "envsubst < /cnab/app/backend.config > /cnab/app/terraform/backend.tf"
-  - terrafrom: 
+  - terraform: 
       description: "Upgrade DataDog Dashboard"
 
 uninstall:
@@ -52,7 +52,7 @@ uninstall:
       arguments: 
         - "-c" 
         - "envsubst < /cnab/app/backend.config > /cnab/app/terraform/backend.tf"
-  - terrafrom: 
+  - terraform: 
       description: "Delete DataDog Dashboard"
 
   
