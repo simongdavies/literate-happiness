@@ -23,6 +23,7 @@ parameters:
 
 mixins:
   - terraform
+  - exec
 
 install:
   - exec: 
