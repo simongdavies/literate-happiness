@@ -144,6 +144,7 @@ if [ "${tool}" == "porter" ]; then
     "${porter_home}/porter" mixin install kubernetes --version "${porter_version}" --feed-url "${feed_url}"
     "${porter_home}/porter" mixin install helm --version "${porter_version}" --feed-url "${feed_url}"
     "${porter_home}/porter" mixin install azure --version "${porter_version}" --feed-url "${feed_url}"
+    "${porter_home}/porter" mixin install terraform --version "${porter_version}" --feed-url "${feed_url}"
     echo "Installed mixins"
 
     # Update the path
