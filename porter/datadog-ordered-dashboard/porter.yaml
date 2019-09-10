@@ -22,12 +22,12 @@ parameters:
     env: TF_VAR_dashboard_name
 
 mixins:
-  - terraform
   - exec
-
+  - terraform
+  
 install:
   - exec: 
-      description: "Create Local State Path and update TF config"
+      description: "Create Local State Path and update Terraform config"
       command: "bash"
       arguments: 
         - "-c" 
@@ -37,7 +37,7 @@ install:
     
 upgrade:
   - exec: 
-      description: "Update TF config"
+      description: "Update Terraform config"
       command: "bash"
       arguments: 
         - "-c" 
@@ -47,7 +47,7 @@ upgrade:
 
 uninstall:
   - exec: 
-      description: "Update TF config"
+      description: "Update Terraform config"
       command: "bash"
       arguments: 
         - "-c" 
